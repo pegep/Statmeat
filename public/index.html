@@ -22,6 +22,8 @@
 	    <tr>
 	      <th>Alkaa</th>
 	      <th>Jengit</th>
+	      <th>Koti</th>
+	      <th>Vieras</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -65,10 +67,12 @@ function search(needle) {
 function updateTable(docs) {
     docs.forEach(function(item) {
 	var match = item.attributes;
-
+console.log(match);
 	$('.matches tbody').append('<tr>'
 				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
 				  + '<td>' + match.name + '</td>'
+				  + '<td>' + (match.home_points || '-') + '</td>'
+				  + '<td>' + (match.away_points || '-') + '</td>'
 				  + '</tr>'
 				 );
     });
