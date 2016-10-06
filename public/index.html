@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Statmeat - put the meat to the beat</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+	<h1>Statmeat</h1>
+	<input type="text" name="search" placeholder="Hae jengiä"></input>
+      </div>
+
+      <div class="row-fluid">
+	<table class="matches table table-striped">
+	  <thead>
+	    <tr>
+	      <th>Alkaa</th>
+	      <th>Jengit</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  </tbody>
+	</table>
+      </div>
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+  <script src="nedb.min.js"></script>
+  <script src="data.json"></script>
+    <script>
+    /* */
+
+var db = new Nedb();
+data.forEach(function(item) {
+    db.insert(item);
+});
+
+$(document).ready(function() {
+    search('');
+});
+
+$('input[name="search"]').on('change', function() {
+    var needle = $(this).val();
+    search(needle);
+});
+
+function search(needle) {
+    $('.matches tbody').empty();
+    var re = new RegExp(needle, 'i');
+    db.find({
+	'attributes.name': re
+    }, function(err, docs) {
+	updateTable(docs);
+    });
+}
+
+function updateTable(docs) {
+    docs.forEach(function(item) {
+	var match = item.attributes;
+	console.log(item);
+	$('.matches tbody').append('<tr>'
+				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
+				  + '<td>' + match.name + '</td>'
+				  + '</tr>'
+				 );
+    });
+    
+}
+
+</script>
+</html>

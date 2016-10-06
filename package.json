@@ -1,0 +1,11 @@
+{
+    "name": "statmeat",
+    "version": "1.0.0",
+    "private": true,
+    "description": "put the meat in the beat!",
+    "dependencies": {
+	"nedb": "*",
+	"request": "*",
+	"async": "*"
+    }
+}
