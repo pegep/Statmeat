@@ -67,7 +67,6 @@ function search(needle) {
 function updateTable(docs) {
     docs.forEach(function(item) {
 	var match = item.attributes;
-console.log(match);
 	$('.matches tbody').append('<tr>'
 				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
 				  + '<td>' + match.name + '</td>'

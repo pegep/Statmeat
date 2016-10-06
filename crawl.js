@@ -7,7 +7,7 @@ var fs = require('fs');
 
 var baseUrl = 'https://www.statbeat.com/api/v2/competitions/124464/matches?filter[after@sb]=';
 var offsetDateString = new Date('2016-09-01').toISOString();
-var endDateString = new Date('2016-12-30').toISOString();
+var endDateString = new Date('2017-06-01').toISOString();
 var limit = '&limit=100';
 var cont = true;
 
@@ -16,9 +16,10 @@ var db = new Datastore({
     autoload: true
 });
 
+var cont = true;
 var itemCount = 0;
 async.whilst(
-    () => offsetDateString < endDateString,
+    () => cont && offsetDateString < endDateString,
     (cb) => {
 	var currentUrl = baseUrl + offsetDateString + limit;
 	console.log('Requesting: ' + currentUrl);
@@ -28,6 +29,10 @@ async.whilst(
 	    var itemCountLoop = 0;
 
 	    data.data.forEach(function(item) {
+		if (!item.attributes.name) {
+		    return;
+		}
+
 		var offsetTime = new Date(item.attributes.start_time).getTime() + 1000;
 
 		offsetDateString = new Date(offsetTime).toISOString();
@@ -39,6 +44,10 @@ async.whilst(
 		itemCount++;
 		itemCountLoop++;
 	    });
+
+	    if (itemCountLoop == 0) {
+		cont = false;
+	    }
 
 	    console.log('Added: +' + itemCountLoop + ', total: ' + itemCount)
 	    cb();
@@ -56,7 +65,6 @@ async.whilst(
 	    });
 
 	    outJson = 'var data = ' + JSON.stringify(out);
-	    console.log(outJson);
 	    fs.writeFile('data.json', outJson, 'utf8');
 	});
     }
