@@ -43,7 +43,7 @@ $(document).ready(function() {
     search('');
 });
 
-$('input[name="search"]').on('change', function() {
+$('input[name="search"]').on('keyup', function() {
     var needle = $(this).val();
     search(needle);
 });
@@ -53,15 +53,16 @@ function search(needle) {
     var re = new RegExp(needle, 'i');
     db.find({
 	'attributes.name': re
-    }, function(err, docs) {
-	updateTable(docs);
+    }).sort({'attributes.start_time': 1})
+	.exec(function(err, docs) {
+	    updateTable(docs);
     });
 }
 
 function updateTable(docs) {
     docs.forEach(function(item) {
 	var match = item.attributes;
-	console.log(item);
+
 	$('.matches tbody').append('<tr>'
 				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
 				  + '<td>' + match.name + '</td>'
