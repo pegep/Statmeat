@@ -11,9 +11,14 @@ var endDateString = new Date('2017-06-01').toISOString();
 var limit = '&limit=100';
 var cont = true;
 
-var db = new Datastore({
-    filename: 'statmeat.nedb',
-    autoload: true
+var dbs = {};
+var sections = ['matches', 'pitches', 'groups', 'teams', 'competition_categories'];
+
+sections.forEach((item) => {
+    dbs[item] = new Datastore({
+	filename: item + '.nedb',
+	autoload: true
+    });
 });
 
 var cont = true;
@@ -39,7 +44,7 @@ async.whilst(
 
 		console.log(offsetDateString + ', ' + item.attributes.name);
 
-		db.insert(item);
+		dbs['matches'].insert(item);
 
 		itemCount++;
 		itemCountLoop++;
@@ -48,6 +53,18 @@ async.whilst(
 	    if (itemCountLoop == 0) {
 		cont = false;
 	    }
+
+	    sections.forEach((section) => {
+		data.included
+		    .filter((item) => item.type == section)
+		    .forEach((item) => {
+			dbs[section].find({ id: item.id }, (err, docs) => {
+			    if (!docs.length) {
+				dbs[section].insert(item);
+			    }
+			});
+		    });
+	    });
 
 	    console.log('Added: +' + itemCountLoop + ', total: ' + itemCount)
 	    cb();
@@ -59,7 +76,7 @@ async.whilst(
 	
 	console.log('Total ' + itemCount + ' items');
 	console.log('Done!');
-	db.find({}, (err, docs) => {
+	dbs['matches'].find({}, (err, docs) => {
 	    docs.forEach((doc) => {
 		out.push(doc);
 	    });
@@ -69,95 +86,3 @@ async.whilst(
 	});
     }
 );
-
-/*
-db.find({
-    'attributes.name': /talous/i
-}, (err, docs) => {
-    console.log(docs);
-});
-
-var obj = {
-    "attributes": {
-	"away_points": null,
-	"away_rating_delta": 0,
-	"description": "",
-	"end_time": "2016-10-03T18:55:00.000000Z",
-	"home_points": null,
-	"home_rating_delta": 0,
-	"live_away_points": 0,
-	"live_home_points": 0,
-	"name": "SalaJengi66 - Team K",
-	"start_time": "2016-10-03T18:00:00.000000Z",
-	"timezone_offset": 3,
-	"title": "Group A"
-    },
-    "id": "162684",
-    "relationships": {},
-    "type": "matches"
-};
-
-var dataMock = [ { attributes:
-		   { away_points: 3,
-		     away_rating_delta: -94,
-		     description: '',
-		     end_time: '2016-10-03T14:55:00.000000Z',
-		     home_points: 7,
-		     home_rating_delta: 94,
-		     live_away_points: null,
-		     live_home_points: null,
-		     name: 'Tolppakuti - Kyrönmaan Pallo',
-		     start_time: '2016-10-03T14:00:00.000000Z',
-		     timezone_offset: 3,
-		     title: 'Lohko A' },
-		   id: '163542',
-		   relationships:
-		   { away_team: [Object],
-		     category: [Object],
-		     group: [Object],
-		     home_team: [Object],
-		     pitch: [Object] },
-		   type: 'matches' },
-		 { attributes:
-		   { away_points: 4,
-		     away_rating_delta: 30,
-		     description: '',
-		     end_time: '2016-10-03T15:55:00.000000Z',
-		     home_points: 2,
-		     home_rating_delta: -30,
-		     live_away_points: null,
-		     live_home_points: null,
-		     name: 'Talous+Procountor - Efecte',
-		     start_time: '2016-10-03T15:00:00.000000Z',
-		     timezone_offset: 3,
-		     title: 'Lohko A' },
-		   id: '164067',
-		   relationships:
-		   { away_team: [Object],
-		     category: [Object],
-		     group: [Object],
-		     home_team: [Object],
-		     pitch: [Object] },
-		   type: 'matches' },
-		 { attributes:
-		   { away_points: 4,
-		     away_rating_delta: 150,
-		     description: '',
-		     end_time: '2016-10-03T16:25:00.000000Z',
-		     home_points: 1,
-		     home_rating_delta: -150,
-		     live_away_points: null,
-		     live_home_points: null,
-		     name: 'SBS Kings - Tuplahuti Naiset',
-		     start_time: '2016-10-03T15:30:00.000000Z',
-		     timezone_offset: 3,
-		     title: 'Lohko A' },
-		   id: '162451',
-		   relationships:
-		   { away_team: [Object],
-		     category: [Object],
-		     group: [Object],
-		     home_team: [Object],
-		     pitch: [Object] },
-		   type: 'matches' } ];
-*/
