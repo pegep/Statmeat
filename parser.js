@@ -20,11 +20,25 @@ var groups = data.included
     .map((item) => ({ [item.id]: item }));
 
 var teams = data.included
-    .filter((item) => item.type == 'groups')
+    .filter((item) => item.type == 'teams')
     .map((item) => ({ [item.id]: item }));
 
 var competitionCategories = data.included
-    .filter((item) => item.type == 'groups')
+    .filter((item) => item.type == 'competition_categories')
     .map((item) => ({ [item.id]: item }));
 
 console.log(matches);
+
+var db = new Datastore({
+    filename: 'statmeat.nedb',
+    autoload: true
+});
+
+db.find({}, (err, docs) => {
+    docs.forEach((doc) => {
+	out.push(doc);
+    });
+    
+    outJson = 'var data = ' + JSON.stringify(out);
+    fs.writeFile('data.json', outJson, 'utf8');
+});
