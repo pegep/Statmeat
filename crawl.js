@@ -6,7 +6,7 @@ var async = require('async');
 var fs = require('fs');
 
 var baseUrl = 'https://www.statbeat.com/api/v2/competitions/124464/matches?filter[after@sb]=';
-var offsetDateString = new Date('2016-10-06').toISOString();
+var offsetDateString = new Date('2016-09-01').toISOString();
 var endDateString = new Date('2017-06-01').toISOString();
 var limit = '&limit=100';
 var cont = true;
