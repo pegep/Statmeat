@@ -16,8 +16,8 @@ var pitches = data.included
     .map((item) => ({ [item.id]: item }));
 
 var groups = data.included
-    .filter((item) => item.type == 'groups')
-    .map((item) => ({ [item.id]: item }));
+    .filter((item) => item.type == 'groups');
+//    .map((item) => ({ [item.id]: item }));
 
 var teams = data.included
     .filter((item) => item.type == 'teams')
@@ -27,13 +27,14 @@ var competitionCategories = data.included
     .filter((item) => item.type == 'competition_categories')
     .map((item) => ({ [item.id]: item }));
 
-console.log(matches);
+console.log(groups);
 
 var db = new Datastore({
     filename: 'statmeat.nedb',
     autoload: true
 });
 
+/*
 db.find({}, (err, docs) => {
     docs.forEach((doc) => {
 	out.push(doc);
@@ -42,3 +43,4 @@ db.find({}, (err, docs) => {
     outJson = 'var data = ' + JSON.stringify(out);
     fs.writeFile('data.json', outJson, 'utf8');
 });
+*/
