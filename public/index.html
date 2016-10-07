@@ -25,6 +25,7 @@
 	      <th>Jengit</th>
 	      <th>Koti</th>
 	      <th>Vieras</th>
+	      <th>Kenttä</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -60,8 +61,8 @@ function search(needle) {
     $('.matches tbody').empty();
     var re = new RegExp(needle, 'i');
     db.find({
-	'attributes.name': re
-    }).sort({'attributes.start_time': 1})
+	'name': re
+    }).sort({'start_time': 1})
 	.exec(function(err, docs) {
 	    updateTable(docs);
     });
@@ -69,13 +70,14 @@ function search(needle) {
 
 function updateTable(docs) {
     docs.forEach(function(item) {
-	var match = item.attributes;
+	var match = item;
 	var classes = ((new Date(match.start_time)) < nowDate) ? 'past' : '';
 	$('.matches tbody').append('<tr class="' + classes + '">'
 				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
 				  + '<td>' + match.name + '</td>'
 				  + '<td>' + (match.home_points || '-') + '</td>'
 				  + '<td>' + (match.away_points || '-') + '</td>'
+				  + '<td>' + (match.pitch || '-') + '</td>'
 				  + '</tr>'
 				 );
     });
