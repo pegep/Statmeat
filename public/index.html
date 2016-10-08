@@ -80,7 +80,6 @@ $('input[name="past"]').on('change', searchFunc);
 $('input[name="search"]').on('keyup', searchFunc);
 
 function search(needle, filter) {
-    $('.matches tbody').empty();
     let re = new RegExp(needle, 'i');
     let query = {};
     query.name = re;
@@ -93,6 +92,9 @@ function search(needle, filter) {
 }
 
 function updateTable(docs) {
+    $('.matches tbody').empty()
+    $('.matches').addClass('loader')
+
     docs.forEach(function(item) {
 	let match = item;
 	let classes = ((new Date(match.start_time)) < nowDate) ? 'past' : '';
@@ -100,7 +102,7 @@ function updateTable(docs) {
 	let awayTeam = match.away_team.attributes;
 	let homeTeamImg = '<img src="' + homeTeam.picture.small + '" />';
 	let awayTeamImg = '<img src="' + awayTeam.picture.small + '" />';
-console.log(homeTeam);
+
 	$('.matches tbody').append('<tr class="' + classes + '">'
 				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
 				  + '<td title="' + homeTeam.hometown + '">' + homeTeam.name + '</td>'
@@ -113,7 +115,8 @@ console.log(homeTeam);
 				  + '</tr>'
 				 );
     });
-    
+
+    $('.matches').removeClass('loader')
 }
 
 </script>
