@@ -50,28 +50,49 @@
     <script>
     /* */
 
-let db = new Nedb();
-let nowDate = new Date();
-let fewDaysAgo = new Date();
+navigator.sayswho= (function(){
+    var ua= navigator.userAgent, tem, 
+    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'IE '+(tem[1] || '');
+    }
+    if(M[1]=== 'Chrome'){
+        tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+    }
+    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+    return M.join(' ');
+})();
+
+var db = new Nedb();
+var nowDate = new Date();
+var fewDaysAgo = new Date();
 fewDaysAgo.setDate(fewDaysAgo.getDate() - 2);
-let fewDaysAgoString = moment(fewDaysAgo).format('YYYY-MM-DD HH:mm:ss');
-let fewDaysAgoFilter = {
+var fewDaysAgoString = moment(fewDaysAgo).format('YYYY-MM-DD HH:mm:ss');
+var fewDaysAgoFilter = {
     'start_time': { '$gt': fewDaysAgoString }
 };
 
+var i = 0;
 data.forEach(function(item) {
+    if (navigator.sayswho.indexOf('Firefox') >= 0 && i > 450) {
+	return;
+    }
     db.insert(item);
+    i++;
 });
 
 $(document).ready(function() {
-    let showPast = $('input[name="past"]').is(':checked');
+    var showPast = $('input[name="past"]').is(':checked');
 
     search('', showPast ? {} : fewDaysAgoFilter);
 });
 
-let searchFunc = () => {
-    let needle = $('input[name="search"]').val();
-    let showPast = $('input[name="past"]').is(':checked');
+var searchFunc = () => {
+    var needle = $('input[name="search"]').val();
+    var showPast = $('input[name="past"]').is(':checked');
     
     search(needle, showPast ? {} : fewDaysAgoFilter);
 };
@@ -80,8 +101,8 @@ $('input[name="past"]').on('change', searchFunc);
 $('input[name="search"]').on('keyup', searchFunc);
 
 function search(needle, filter) {
-    let re = new RegExp(needle, 'i');
-    let query = {};
+    var re = new RegExp(needle, 'i');
+    var query = {};
     query.name = re;
     Object.assign(query, filter);
 
@@ -96,12 +117,12 @@ function updateTable(docs) {
     $('.matches').addClass('loader')
 
     docs.forEach(function(item) {
-	let match = item;
-	let classes = ((new Date(match.start_time)) < nowDate) ? 'past' : '';
-	let homeTeam = match.home_team.attributes;
-	let awayTeam = match.away_team.attributes;
-	let homeTeamImg = '<img src="' + homeTeam.picture.small + '" />';
-	let awayTeamImg = '<img src="' + awayTeam.picture.small + '" />';
+	var match = item;
+	var classes = ((new Date(match.start_time)) < nowDate) ? 'past' : '';
+	var homeTeam = match.home_team.attributes;
+	var awayTeam = match.away_team.attributes;
+	var homeTeamImg = '<img src="' + homeTeam.picture.small + '" />';
+	var awayTeamImg = '<img src="' + awayTeam.picture.small + '" />';
 
 	$('.matches tbody').append('<tr class="' + classes + '">'
 				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
@@ -118,6 +139,8 @@ function updateTable(docs) {
 
     $('.matches').removeClass('loader')
 }
+
+
 
 </script>
 </html>
