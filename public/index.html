@@ -28,9 +28,12 @@
 	  <thead>
 	    <tr>
 	      <th>Alkaa</th>
-	      <th>Jengit</th>
 	      <th>Koti</th>
+	      <th></th>
+	      <th></th>
 	      <th>Vieras</th>
+	      <th title="Koti">K</th>
+	      <th title="Vieras">V</th>
 	      <th>Kenttä</th>
 	    </tr>
 	  </thead>
@@ -93,10 +96,17 @@ function updateTable(docs) {
     docs.forEach(function(item) {
 	let match = item;
 	let classes = ((new Date(match.start_time)) < nowDate) ? 'past' : '';
-
+	let homeTeam = match.home_team.attributes;
+	let awayTeam = match.away_team.attributes;
+	let homeTeamImg = '<img src="' + homeTeam.picture.small + '" />';
+	let awayTeamImg = '<img src="' + awayTeam.picture.small + '" />';
+console.log(homeTeam);
 	$('.matches tbody').append('<tr class="' + classes + '">'
 				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
-				  + '<td>' + match.name + '</td>'
+				  + '<td title="' + homeTeam.hometown + '">' + homeTeam.name + '</td>'
+				  + '<td>' + homeTeamImg + '</td>'
+				  + '<td>' + awayTeamImg + '</td>'
+				  + '<td title="' + awayTeam.hometown + '">' + awayTeam.name + '</td>'
 				  + '<td>' + (match.home_points || '-') + '</td>'
 				  + '<td>' + (match.away_points || '-') + '</td>'
 				  + '<td>' + (match.pitch || '-') + '</td>'
