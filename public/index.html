@@ -86,14 +86,18 @@ data.forEach(function(item) {
 
 $(document).ready(function() {
     var showPast = $('input[name="past"]').is(':checked');
+    var needle = window.location.hash.replace('#', '');
 
-    search('', showPast ? {} : fewDaysAgoFilter);
+    $('input[name="search"]').val(needle);
+
+    search(needle, showPast ? {} : fewDaysAgoFilter);
 });
 
 var searchFunc = () => {
     var needle = $('input[name="search"]').val();
     var showPast = $('input[name="past"]').is(':checked');
     
+    window.history.replaceState({}, needle, '#' + needle);
     search(needle, showPast ? {} : fewDaysAgoFilter);
 };
 
