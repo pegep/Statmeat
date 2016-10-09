@@ -46,6 +46,7 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
   <script src="nedb.min.js"></script>
+  <script src="async.min.js"></script>
   <script src="data.json"></script>
     <script>
     /* */
@@ -75,13 +76,10 @@ var fewDaysAgoFilter = {
     'start_time': { '$gt': fewDaysAgoString }
 };
 
-var i = 0;
-data.forEach(function(item) {
-    if (navigator.sayswho.indexOf('Firefox') >= 0 && i > 450) {
-	return;
-    }
-    db.insert(item);
-    i++;
+async.each(data, function(item, cb) {
+    db.insert(item, () => {
+	cb();
+    });
 });
 
 $(document).ready(function() {
