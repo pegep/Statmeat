@@ -2,8 +2,6 @@
     opacity: 0.66;
 }
 
-
-
 .sub {
     font-size: 66%;
     white-space: nowrap;
@@ -13,6 +11,7 @@
 
 .matches td {
     position: relative;
+    white-space: nowrap;
 }
 
 .matches td:nth-child(2) {
