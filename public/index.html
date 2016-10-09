@@ -45,6 +45,7 @@
   </body>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+  <script src="fi.js"></script>
   <script src="nedb.min.js"></script>
   <script src="async.min.js"></script>
   <script src="data.json"></script>
@@ -125,7 +126,7 @@ function updateTable(docs) {
 	var awayTeamImg = '<img src="' + match.away_team_picture_small + '" />';
 
 	$('.matches tbody').append('<tr class="' + classes + '">'
-				  + '<td>' + moment(match.start_time).format('YYYY-MM-DD HH:mm:ss') + '</td>'
+				  + '<td>' + '<span class="sub">' + moment(match.start_time).locale('fi').fromNow() + '</span>' + moment(match.start_time).locale('fi').format('YYYY-MM-DD HH:mm') + '</td>'
 				  + '<td title="' + match.home_team_hometown + '">' + match.home_team_name + '</td>'
 				  + '<td>' + homeTeamImg + '</td>'
 				  + '<td>' + awayTeamImg + '</td>'

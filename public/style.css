@@ -2,6 +2,20 @@
     opacity: 0.66;
 }
 
+
+
+.sub {
+    font-size: 66%;
+    white-space: nowrap;
+    font-weight: bold;
+    position: absolute;
+    top: 3em;
+}
+
+.matches td {
+    position: relative;
+}
+
 .matches td:nth-child(2) {
     text-align: right !important;
 }
