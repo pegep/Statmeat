@@ -37,9 +37,14 @@ dbs['matches'].find({}, (err, matches) => {
 		    'end_time': match.attributes.end_time,
 		    'home_points': match.attributes.home_points,
 		    'away_points': match.attributes.away_points,
+		    'name': match.attributes.name,
 		    'pitch': pitch.attributes.abbreviation,
-		    'home_team': homeTeam,
-		    'away_team': awayTeam
+		    'home_team_name': homeTeam.attributes.name,
+		    'home_team_picture_small': homeTeam.attributes.picture.small,
+		    'home_team_hometown': homeTeam.attributes.hometown,
+		    'away_team_name': awayTeam.attributes.name,
+		    'away_team_picture_small': awayTeam.attributes.picture.small,
+		    'away_team_hometown': awayTeam.attributes.hometown,
 		};
 
 		out.push(retMatch);
