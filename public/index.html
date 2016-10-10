@@ -35,6 +35,7 @@
 	      <th title="Koti">K</th>
 	      <th title="Vieras">V</th>
 	      <th>Kenttä</th>
+	      <th>Sarja</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -117,7 +118,8 @@ function updateTable(docs) {
 				  + '<td title="' + match.away_team_hometown + '">' + match.away_team_name + '</td>'
 				  + '<td>' + (match.home_points || '-') + '</td>'
 				  + '<td>' + (match.away_points || '-') + '</td>'
-				  + '<td>' + (match.pitch || '-') + '</td>'
+				  + '<td>' + (match.pitch_abbreviation || '-') + '</td>'
+				  + '<td>' + (match.category_name || '-') + '</td>'
 				  + '</tr>'
 				 );
     });
