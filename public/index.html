@@ -113,7 +113,7 @@ var searchFunc = () => {
     var categoryName = $('select[name="category"]').val();
     var filter = {};
 
-    if (showPast) {
+    if (!showPast) {
 	Object.assign(filter, fewDaysAgoFilter);
     }
 
