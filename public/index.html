@@ -5,22 +5,34 @@
     <title>Statmeat - put the meat to the beat</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="container-fluid">
       <div class="row-fluid">
-	<h1>Statmeat - meat to the beat</h1>
-	<div class="input-group">
+	<h1 style="font-family: Ubuntu, sans-serif; text-transform: uppercase">Statmeat <small>meat to the beat</small></h1>
+	<div class="input-group form-group">
 	  <span class="input-group-addon glyphicon glyphicon-search" aria-hidden="true"></span>
 	  <input type="text" name="search" placeholder="Hae jengiä" class="form-control"></input>
 	</div>
-	<div class="checkbox">
-	  <label>
-	    <input type="checkbox" name="past" />
-	    Näytä menneet
-	  </label>
+
+	<div class="form-inline">
+	  <div class="checkbox form-group">
+	    <label>
+	      <input type="checkbox" name="past" />
+	      Näytä menneet
+	    </label>
+	  </div>
+	  <div class="form-group pull-right">
+	    <label>
+	      <select name="category" class="form-control">
+		<option value="">Kaikki</option>
+	      </select>
+	    </label>
+	  </div>
 	</div>
+	
       </div>
 
       <div class="row-fluid">
@@ -61,32 +73,65 @@ var fewDaysAgoString = moment(fewDaysAgo).format('YYYY-MM-DD HH:mm:ss');
 var fewDaysAgoFilter = {
     'start_time': { '$gt': fewDaysAgoString }
 };
+var categoryFilter = {};
 
-async.each(data, function(item, cb) {
-    db.insert(item, () => {
-	cb();
+var categoriesSet = new Set();
+
+var dbInitP = new Promise((resolve, reject) => {
+    async.each(data, function(item, cb) {
+	db.insert(item, () => {
+	    categoriesSet.add(item.category_name);
+	    cb();
+	});
+    }, (err) => {
+	resolve();
     });
 });
 
 $(document).ready(function() {
-    var showPast = $('input[name="past"]').is(':checked');
-    var needle = window.location.hash.replace('#', '');
+    dbInitP.then(() => {
+	var showPast = $('input[name="past"]').is(':checked');
+	var needle = window.location.hash.replace('#', '');
+	var categoryName = $('select[name="category"]').val();
+	var filter = {};
+	
+	[...categoriesSet].sort().forEach((categoryName) => {
+	    $('select[name="category"]').append('<option value="' + categoryName + '">' + categoryName + '</option>');
+	});
 
-    $('input[name="search"]').val(needle);
-
-    search(needle, showPast ? {} : fewDaysAgoFilter);
+	Object.assign(filter, fewDaysAgoFilter);
+	
+	$('input[name="search"]').val(needle);
+	
+	search(needle, filter);
+    });
 });
 
 var searchFunc = () => {
     var needle = $('input[name="search"]').val();
     var showPast = $('input[name="past"]').is(':checked');
-    
+    var categoryName = $('select[name="category"]').val();
+    var filter = {};
+
+    if (showPast) {
+	Object.assign(filter, fewDaysAgoFilter);
+    }
+
+    if (categoryName) {
+	var categoryFilter = {
+	    'category_name': categoryName
+	};
+
+	Object.assign(filter, categoryFilter);
+    }
+
     window.history.replaceState({}, needle, '#' + needle);
-    search(needle, showPast ? {} : fewDaysAgoFilter);
+    search(needle, filter);
 };
 
 $('input[name="past"]').on('change', searchFunc);
 $('input[name="search"]').on('keyup', searchFunc);
+$('select[name="category"]').on('change', searchFunc);
 
 function search(needle, filter) {
     var re = new RegExp(needle, 'i');
