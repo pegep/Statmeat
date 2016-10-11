@@ -13,13 +13,17 @@
     top: 3em;
 }
 
+.matches th.hometeam {
+    text-align: right;
+}
+
 .matches td {
     position: relative;
     white-space: nowrap;
 }
 
 .matches td:nth-child(2) {
-    text-align: right !important;
+    text-align: right;
 }
 
 .matches.loader:before {
