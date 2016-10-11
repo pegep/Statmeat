@@ -27,7 +27,7 @@ async.whilst(
     () => cont && offsetDateString < endDateString,
     (cb) => {
 	var currentUrl = baseUrl + offsetDateString + limit;
-	console.log('Requesting: ' + currentUrl);
+	process.stdout.write('Requesting: ' + currentUrl);
 
 	request(currentUrl, (err, res, body) => {
 	    var data = JSON.parse(body);
@@ -42,7 +42,7 @@ async.whilst(
 
 		offsetDateString = new Date(offsetTime).toISOString();
 
-		console.log(offsetDateString + ', ' + item.attributes.name);
+//		console.log(offsetDateString + ', ' + item.attributes.name);
 
 		dbs['matches'].insert(item);
 
@@ -66,7 +66,7 @@ async.whilst(
 		    });
 	    });
 
-	    console.log('Added: +' + itemCountLoop + ', total: ' + itemCount)
+	    console.log(', Added: +' + itemCountLoop + ', total: ' + itemCount)
 	    cb();
 	});
     },
