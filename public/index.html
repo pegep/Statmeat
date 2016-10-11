@@ -25,6 +25,12 @@
 	      Näytä menneet
 	    </label>
 	  </div>
+    	  <div class="checkbox form-group">
+	    <label>
+	      <input type="checkbox" name="nearby" checked />
+	      Näytä vain pelit lähitulevaisuudessa
+	    </label>
+	  </div>
 	  <div class="form-group pull-right">
 	    <label>
 	      <select name="category" class="form-control">
@@ -81,6 +87,12 @@ var fewDaysAgoString = moment(fewDaysAgo).format('YYYY-MM-DD HH:mm:ss');
 var fewDaysAgoFilter = {
     'start_time': { '$gt': fewDaysAgoString }
 };
+var fewMonthsForward = new Date();
+fewMonthsForward.setDate(fewDaysAgo.getDate() + 30);
+var fewMonthsForwardString = moment(fewMonthsForward).format('YYYY-MM-DD HH:mm:ss');
+var fewMonthsForwardFilter = {
+    'start_time': { '$lt': fewMonthsForwardString }
+}
 var categoryFilter = {};
 
 var categoriesSet = new Set();
@@ -102,12 +114,16 @@ $(document).ready(function() {
 	var needle = window.location.hash.replace('#', '');
 	var categoryName = $('select[name="category"]').val();
 	var filter = {};
+	var dateFilters = [];
 	
 	[...categoriesSet].sort().forEach((categoryName) => {
 	    $('select[name="category"]').append('<option value="' + categoryName + '">' + categoryName + '</option>');
 	});
 
-	Object.assign(filter, fewDaysAgoFilter);
+	dateFilters.push(fewDaysAgoFilter);
+	dateFilters.push(fewMonthsForwardFilter);
+	
+	filter['$and'] = dateFilters;
 	
 	$('input[name="search"]').val(needle);
 	
@@ -118,12 +134,20 @@ $(document).ready(function() {
 var searchFunc = () => {
     var needle = $('input[name="search"]').val();
     var showPast = $('input[name="past"]').is(':checked');
+    var showNearby = $('input[name="nearby"]').is(':checked');
     var categoryName = $('select[name="category"]').val();
     var filter = {};
+    var dateFilters = [];
 
     if (!showPast) {
-	Object.assign(filter, fewDaysAgoFilter);
+	dateFilters.push(fewDaysAgoFilter);
     }
+
+    if (showNearby) {
+	dateFilters.push(fewMonthsForwardFilter);
+    }
+
+    filter['$and'] = dateFilters;
 
     if (categoryName) {
 	var categoryFilter = {
@@ -138,14 +162,15 @@ var searchFunc = () => {
 };
 
 $('input[name="past"]').on('change', searchFunc);
+$('input[name="nearby"]').on('change', searchFunc);
 $('input[name="search"]').on('keyup', searchFunc);
 $('select[name="category"]').on('change', searchFunc);
 
-function search(needle, filter) {
+function search(needle, filters) {
     var re = new RegExp(needle, 'i');
     var query = {};
     query.name = re;
-    Object.assign(query, filter);
+    Object.assign(query, filters);
 
     db.find(query).sort({'start_time': 1})
 	.exec(function(err, docs) {
