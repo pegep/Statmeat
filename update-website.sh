@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ~/.nvm/nvm.sh
+source "$HOME/.nvm/nvm.sh"
 nvm use node
 
 echo "Removing existing NeDB databases, *.nedb"
