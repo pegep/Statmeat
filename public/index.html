@@ -196,7 +196,7 @@ function updateTable(docs) {
 				  + '<td>' + awayTeamImg + '</td>'
 				  + '<td title="' + match.away_team_hometown + '">' + match.away_team_name + '</td>'
 				  + '<td>' + (match.pitch_abbreviation || '-') + '</td>'
-				  + '<td>' + (match.category_name || '-') + '</td>'
+				  + '<td><a href="https://beta.statbeat.com/talviliiga16-17/' + match.category_slug + '/teams">' + (match.category_name) + '</a></td>'
 				  + '</tr>'
 				 );
     });

@@ -60,6 +60,7 @@ new Promise((resolve, rejecct) => {
 		    'name': match.attributes.name,
 		    'pitch_abbreviation': pitch.attributes.abbreviation,
 		    'category_name': category.attributes.name,
+		    'category_slug': category.attributes.slug,
 		    'home_team_name': homeTeam.attributes.name,
 		    'home_team_picture_small': homeTeam.attributes.picture.small,
 		    'home_team_hometown': homeTeam.attributes.hometown,
