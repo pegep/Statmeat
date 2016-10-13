@@ -47,12 +47,10 @@
 	  <thead>
 	    <tr>
 	      <th>Alkaa</th>
-	      <th class="hometeam">Koti</th>
-	      <th></th>
-	      <th></th>
-	      <th>Vieras</th>
-	      <th title="Koti">K</th>
-	      <th title="Vieras">V</th>
+	      <th title="Koti" colspan="2">Koti</th>
+	      <th title="Koti"></th>
+	      <th title="Vieras"></th>
+	      <th title="Vieras" colspan="2">Vieras</th>
 	      <th>Kenttä</th>
 	      <th>Sarja</th>
 	    </tr>
@@ -193,10 +191,10 @@ function updateTable(docs) {
 				  + moment(match.start_time).locale('fi').format('YYYY-MM-DD HH:mm') + '</td>'
 				  + '<td title="' + match.home_team_hometown + '">' + match.home_team_name + '</td>'
 				  + '<td>' + homeTeamImg + '</td>'
-				  + '<td>' + awayTeamImg + '</td>'
-				  + '<td title="' + match.away_team_hometown + '">' + match.away_team_name + '</td>'
 				  + '<td>' + (match.home_points || '-') + '</td>'
 				  + '<td>' + (match.away_points || '-') + '</td>'
+				  + '<td>' + awayTeamImg + '</td>'
+				  + '<td title="' + match.away_team_hometown + '">' + match.away_team_name + '</td>'
 				  + '<td>' + (match.pitch_abbreviation || '-') + '</td>'
 				  + '<td>' + (match.category_name || '-') + '</td>'
 				  + '</tr>'

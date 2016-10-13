@@ -13,25 +13,31 @@
     top: 3em;
 }
 
-.matches th.hometeam {
-    text-align: right;
-}
-
 .matches td {
     position: relative;
     white-space: nowrap;
 }
 
-.matches td:nth-child(2) {
+.matches td:nth-child(2), .matches th:nth-child(2) {
     text-align: right;
 }
 
-.matches td:nth-child(3) {
+.matches th:nth-child(3), .matches td:nth-child(3) {
+    text-align: center;
+    width: 24px;
+}
+
+.matches td:nth-child(5) {
+    text-align: right;
+}
+
+.matches th:nth-child(5) {
     text-align: left;
 }
 
-.matches td:nth-child(4) {
-    text-align: right;
+.matches th:nth-child(6), td:nth-child(6) {
+    text-align: center;
+    width: 24px;
 }
 
 .matches.loader:before {
