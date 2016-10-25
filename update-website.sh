@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source "$HOME/.nvm/nvm.sh"
+. "$HOME/.nvm/nvm.sh"
 
 echo "Removing existing NeDB databases, *.nedb"
 cd "$(dirname "$0")"
