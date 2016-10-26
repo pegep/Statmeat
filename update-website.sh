@@ -12,4 +12,4 @@ $HOME/.nvm/versions/node/v5.0.0/bin/node export-for-browser.js
 cp data.json public/
 
 echo "Deploying to Firebase..."
-firebase deploy
+$HOME/.nvm/versions/node/v5.0.0/bin/node /usr/local/bin/firebase deploy
