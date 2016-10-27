@@ -182,7 +182,7 @@ function search(needle, filters) {
     query.name = re;
     Object.assign(query, filters);
 
-    db.find(query).sort({'start_time': 1})
+    db.find(query).sort({'start_time': 1, 'name': 1})
 	.exec(function(err, docs) {
 	    updateTable(docs);
     });
