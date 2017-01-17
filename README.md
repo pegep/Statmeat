@@ -3,6 +3,8 @@ Meat in the Beat
 
 Make Statbeat great again!
 
+Sivusto Firebasessa: https://statmeat-2e8da.firebaseapp.com/
+
 # Tools and utilities
 Install NodeJS.
 
