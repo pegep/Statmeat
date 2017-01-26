@@ -39,10 +39,7 @@ async.whilst(
 		}
 
 		var offsetTime = new Date(item.attributes.start_time).getTime() + 1000;
-
 		offsetDateString = new Date(offsetTime).toISOString();
-
-//		console.log(offsetDateString + ', ' + item.attributes.name);
 
 		dbs['matches'].insert(item);
 
@@ -50,9 +47,7 @@ async.whilst(
 		itemCountLoop++;
 	    });
 
-	    if (itemCountLoop == 0) {
-		cont = false;
-	    }
+	    cont = itemCountLoop != 0;
 
 	    sections.forEach((section) => {
 		data.included
