@@ -89,6 +89,18 @@
     <script>
     /* */
 
+if (!String.prototype.format) {
+    String.prototype.format = function() {
+	var args = arguments;
+	return this.replace(/{(\d+)}/g, function(match, number) {
+	    return typeof args[number] != 'undefined'
+		? args[number]
+		: match
+	    ;
+	});
+    };
+}
+
 var db = new Nedb();
 var nowDate = new Date();
 var fewDaysAgo = new Date();
@@ -197,14 +209,19 @@ function updateTable(docs) {
 	var classes = ((new Date(match.start_time)) < nowDate) ? 'past' : '';
 	var homeTeamImg = '<img src="' + match.home_team_picture_small + '" />';
 	var awayTeamImg = '<img src="' + match.away_team_picture_small + '" />';
+	var isMatchPlayed = typeof match.home_points === 'number';
+	var isHomeTeamWin = isMatchPlayed && match.home_points > match.away_points;
+
+	var homeTeamScoreHtml = ('<td>{0}' + (isMatchPlayed ? match.home_points : '-') + '{1}</td>').format(isHomeTeamWin ? '<strong>': '', isHomeTeamWin ? '</strong>': '');
+	var awayTeamScoreHtml = ('<td>{0}' + (isMatchPlayed ? match.away_points : '-') + '{1}</td>').format(isHomeTeamWin ? '': '<strong>', isHomeTeamWin ? '': '</strong>');
 
 	$('.matches tbody').append('<tr class="' + classes + '">'
 				  + '<td>' + '<span class="sub">' + moment(match.start_time).locale('fi').fromNow() + '</span>' 
 				  + moment(match.start_time).locale('fi').format('YYYY-MM-DD HH:mm') + '</td>'
 				  + '<td title="' + match.home_team_hometown + '">' + match.home_team_name + '</td>'
 				  + '<td>' + homeTeamImg + '</td>'
-				  + '<td>' + (typeof match.home_points === 'number' ? match.home_points : '-') + '</td>'
-				  + '<td>' + (typeof match.away_points === 'number' ? match.away_points : '-') + '</td>'
+				  + homeTeamScoreHtml
+				  + awayTeamScoreHtml
 				  + '<td>' + awayTeamImg + '</td>'
 				  + '<td title="' + match.away_team_hometown + '">' + match.away_team_name + '</td>'
 				  + '<td>' + (match.pitch_abbreviation || '-') + '</td>'
