@@ -15,7 +15,12 @@ Install Firebase tools, https://github.com/firebase/firebase-tools.
 # To crawl
 `node crawl.js`
 
-Crawls Statbeat and generates *statmeat.nedb* and corresponding *data.json*.
+Crawls Statbeat and generates *NeDB* database files based on each JSON section in data.json and corresponding *data.json*.
+
+# Export crawl.js's output for filtered public/data.json
+
+Use `node export-for-browser.js` to produce *data.json* that is browser friendly and "minimized". The script requires that
+crawl.js has been run and NeDB database section files are available.
 
 # To deploy
 
