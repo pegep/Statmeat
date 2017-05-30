@@ -211,19 +211,26 @@ function updateTable(docs) {
 	var awayTeamImg = '<img src="' + match.away_team_picture_small + '" />';
 	var isMatchPlayed = typeof match.home_points === 'number';
 	var isHomeTeamWin = isMatchPlayed && match.home_points > match.away_points;
+	var isAwayTeamWin = isMatchPlayed && match.away_points > match.home_points;
 
-	var homeTeamScoreHtml = ('<td>{0}' + (isMatchPlayed ? match.home_points : '-') + '{1}</td>').format(isHomeTeamWin ? '<strong>': '', isHomeTeamWin ? '</strong>': '');
-	var awayTeamScoreHtml = ('<td>{0}' + (isMatchPlayed ? match.away_points : '-') + '{1}</td>').format(isHomeTeamWin ? '': '<strong>', isHomeTeamWin ? '': '</strong>');
+	var teamNameHtml = '<td title="{0}">{1}{2}{3}</td>';
+	var teamScoreHtml = ('<td>{0}{1}{2}</td>');
+
+	var homeTeamNameHtml = teamNameHtml.format(match.home_team_hometown, isHomeTeamWin ? '<strong>': '', match.home_team_name, isHomeTeamWin ? '</strong>': '');
+	var awayTeamNameHtml = teamNameHtml.format(match.away_team_hometown, isAwayTeamWin ? '<strong>': '', match.away_team_name, isAwayTeamWin ? '</strong>': '');
+
+	var homeTeamScoreHtml = teamScoreHtml.format(isHomeTeamWin ? '<strong>': '', isMatchPlayed ? match.home_points : '-', isHomeTeamWin ? '</strong>': '');
+	var awayTeamScoreHtml = teamScoreHtml.format(isAwayTeamWin ? '<strong>': '', isMatchPlayed ? match.away_points : '-', isAwayTeamWin ? '</strong>': '');
 
 	$('.matches tbody').append('<tr class="' + classes + '">'
 				  + '<td>' + '<span class="sub">' + moment(match.start_time).locale('fi').fromNow() + '</span>' 
 				  + moment(match.start_time).locale('fi').format('YYYY-MM-DD HH:mm') + '</td>'
-				  + '<td title="' + match.home_team_hometown + '">' + match.home_team_name + '</td>'
+				  + homeTeamNameHtml
 				  + '<td>' + homeTeamImg + '</td>'
 				  + homeTeamScoreHtml
 				  + awayTeamScoreHtml
 				  + '<td>' + awayTeamImg + '</td>'
-				  + '<td title="' + match.away_team_hometown + '">' + match.away_team_name + '</td>'
+				  + awayTeamNameHtml
 				  + '<td>' + (match.pitch_abbreviation || '-') + '</td>'
 				  + '<td><a href="https://beta.statbeat.com/talviliiga16-17/' + match.category_slug + '/teams">' + (match.category_name) + '</a></td>'
 				  + '</tr>'
