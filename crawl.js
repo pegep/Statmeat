@@ -50,6 +50,10 @@ async.whilst(
 	    cont = itemCountLoop != 0;
 
 	    sections.forEach((section) => {
+		if (!data.included) {
+		    return false;
+		}
+
 		data.included
 		    .filter((item) => item.type == section)
 		    .forEach((item) => {
