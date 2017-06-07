@@ -63,7 +63,7 @@
     <footer class="footer">
       <div class="container">
 	<p class="text-muted">
-	  Statmeat 2016–2017 - Koska <a href="https://beta.statbeat.com"><img title="StatBeat" src="statbeat.png" /></a> on käyttökelvoton. Statmetista näet salibandyn Play-liigan otteluajat ja tulokset helposti. <small class="">Päivitetty 2017-06-07:11:22:02</small>
+	  Statmeat 2016–2017 - Koska <a href="https://beta.statbeat.com"><img title="StatBeat" src="statbeat.png" /></a> on käyttökelvoton. Statmetista näet salibandyn Play-liigan otteluajat ja tulokset helposti. <small class="">Päivitetty {{last-updated}}</small>
 	</p>
       </div>
     </footer>
