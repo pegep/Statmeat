@@ -6,6 +6,7 @@ echo "Removing existing NeDB databases, *.nedb"
 cd "$(dirname "$0")"
 rm -f *.nedb
 
+. ~/.nvm/nvm.sh
 nvm use node
 
 NODE_VER=$(nvm current)
