@@ -6,6 +6,8 @@ echo "Removing existing NeDB databases, *.nedb"
 cd "$(dirname "$0")"
 rm -f *.nedb
 
+nvm use node
+
 NODE_VER=$(nvm current)
 FIREBASE_BIN=$(which firebase)
 
