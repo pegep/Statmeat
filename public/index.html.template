@@ -34,7 +34,7 @@
 	  <div class="form-group pull-right">
 	    <label>
 	      <select name="category" class="form-control">
-		<option value="">Kaikki</option>
+		<option value="">Näytä kaikki sarjat</option>
 	      </select>
 	    </label>
 	  </div>
