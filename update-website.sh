@@ -11,8 +11,8 @@ echo "Removing existing NeDB databases, *.nedb"
 
 rm -f *.nedb
 
-$NODE_BIN crawl.js
-$NODE_BIN export-for-browser.js
+node crawl.js
+node export-for-browser.js
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 
