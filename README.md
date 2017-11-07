@@ -12,6 +12,8 @@ Install Firebase tools, https://github.com/firebase/firebase-tools.
 
 `npm install -g firebase-tools`
 
+`npm install` to install project modules
+
 # To crawl
 `node crawl.js`
 
