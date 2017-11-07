@@ -12,7 +12,7 @@
   <body>
     <div class="container-fluid">
       <div class="row-fluid">
-	<h1 style="font-family: Ubuntu, sans-serif; text-transform: uppercase">Statmeat <small>meat to the beat - Play-Liiga Kesä 2017</small></h1>
+	<h1 style="font-family: Ubuntu, sans-serif; text-transform: uppercase">Statmeat <small>meat to the beat - Play-Liiga Talvi 2017-2018</small></h1>
 	<div class="input-group form-group">
 	  <span class="input-group-addon glyphicon glyphicon-search" aria-hidden="true"></span>
 	  <input type="text" name="search" placeholder="Hae jengiä" class="form-control"></input>
