@@ -6,7 +6,8 @@ var async = require('async');
 var fs = require('fs');
 
 //var baseUrl = 'https://www.statbeat.com/api/v2/competitions/124464/matches?filter[after@sb]='; // Play-liiga 2016 talvi
-var baseUrl = 'https://www.statbeat.com/api/v2/competitions/188081/matches?filter[after@sb]='; // Play-liiga 2017 kesä
+//var baseUrl = 'https://www.statbeat.com/api/v2/competitions/188081/matches?filter[after@sb]='; // Play-liiga 2017 kesä
+var baseUrl = 'https://www.statbeat.com/api/v2/competitions/218644/matches?filter[after@sb]='; // Play-liiga 2017-2018 talvi
 var offsetDateString = new Date('2017-05-01').toISOString();
 var endDateString = new Date('2017-12-30').toISOString();
 var limit = '&limit=100';
