@@ -25,7 +25,7 @@ EXPORT_OUT=$(node export-for-browser.js)
 echo "$EXPORT_OUT"
 echo
 
-DATE=`date +%Y-%m-%d:%H:%M:%S`
+DATE=`date "+%Y-%m-%d %H:%M:%S"`
 
 cp data.json public/
 sed 's/sr-only//g' public/index.html.template > public/index.html
