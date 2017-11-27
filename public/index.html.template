@@ -68,13 +68,14 @@
       </div>
     </footer>
   </body>
-  <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
   <script>
     // Initialize Firebase
     var config = {
 	apiKey: "AIzaSyBNXcVoimgGbvRRFMWCUqwfffG4bYNSjKw",
 	authDomain: "statmeat-2e8da.firebaseapp.com",
 	databaseURL: "https://statmeat-2e8da.firebaseio.com",
+	projectId: "statmeat-2e8da",
 	storageBucket: "statmeat-2e8da.appspot.com",
 	messagingSenderId: "559444444380"
     };
