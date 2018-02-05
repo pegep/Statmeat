@@ -233,7 +233,7 @@ function updateTable(docs) {
 				  + '<td>' + awayTeamImg + '</td>'
 				  + awayTeamNameHtml
 				  + '<td>' + (match.pitch_abbreviation || '-') + '</td>'
-				  + '<td><a href="https://beta.statbeat.com/talviliiga16-17/' + match.category_slug + '/teams">' + (match.category_name) + '</a></td>'
+				  + '<td><a href="https://beta.statbeat.com/play-liiga-talvi-2017-2018/' + match.category_slug + '/teams">' + (match.category_name) + '</a></td>'
 				  + '</tr>'
 				 );
     });
