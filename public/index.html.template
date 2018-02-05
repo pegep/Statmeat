@@ -86,7 +86,7 @@
   <script src="fi.js"></script>
   <script src="nedb.min.js"></script>
   <script src="async.min.js"></script>
-  <script src="data.json?liiga=kesa2017"></script>
+  <script src="data.json?liiga=talvi2018"></script>
     <script>
     /* */
 
